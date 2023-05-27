@@ -1,5 +1,3 @@
-# 0x04. Files manager
-
 # ALX Files_ Manager
 
 A simple file management API built with Express, MongoDB, Redis, Bull, and Node.js.
