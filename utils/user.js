@@ -2,21 +2,24 @@ import redisClient from './redis';
 import dbClient from './db';
 
 /**
- * User utilities module
+ * Module with user utilities
  */
 const userUtils = {
   /**
-   * Get user redis id and key from request
+   * Gets a user id and key of redis from request
    * @request {request_object} express request obj
-   * @return {object} object with userId and
+   * @return {object} object containing userId and
    * redis key for token
    */
   async getUserIdAndKey(request) {
     const obj = { userId: null, key: null };
-    const token = request.header('X-Token');
 
-    if (!token) return obj;
-    obj.key = `auth_${token}`;
+    const xToken = request.header('X-Token');
+
+    if (!xToken) return obj;
+
+    obj.key = `auth_${xToken}`;
+
     obj.userId = await redisClient.get(obj.key);
 
     return obj;
@@ -24,7 +27,8 @@ const userUtils = {
 
   /**
    * Gets a user from database
-   * @query {object} query to find user
+   * @query {object} query expression for finding
+   * user
    * @return {object} user document object
    */
   async getUser(query) {

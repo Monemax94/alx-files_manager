@@ -1,11 +1,11 @@
 import { ObjectId } from 'mongodb';
 
 /**
- * valid mongo id utilities
+ * Module with basic utilities
  */
 const basicUtils = {
   /**
-   * Validated Id's
+   * Checks if Id is Valid for Mongo
    * @id {string|number} id to be evaluated
    * @return {boolean} true if valid, false if not
    */
