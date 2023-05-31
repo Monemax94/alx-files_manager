@@ -3,28 +3,29 @@ import dbClient from '../utils/db';
 
 class AppController {
   /**
-   * check if redis is alive and if the DB is alive too
+   * should return if Redis is alive and if the DB is alive too
+   * by using the 2 utils created previously:
    * { "redis": true, "db": true } with a status code 200
    */
-  static getStatus(req, res) {
+  static getStatus(_, response) {
     const status = {
       redis: redisClient.isAlive(),
       db: dbClient.isAlive(),
     };
-    res.status(200).send(status);
+    response.status(200).send(status);
   }
 
   /**
-   * return the number of users and files:
+   * should return the number of users and files in DB:
    * { "users": 12, "files": 1231 }
    *  with a status code 200
    */
-  static async getStats(req, res) {
+  static async getStats(_, response) {
     const stats = {
       users: await dbClient.nbUsers(),
       files: await dbClient.nbFiles(),
     };
-    res.status(200).send(stats);
+    response.status(200).send(stats);
   }
 }
 

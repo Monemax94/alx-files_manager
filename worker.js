@@ -1,6 +1,6 @@
 import Queue from 'bull';
 import { ObjectId } from 'mongodb';
-import { promises as filePromises } from 'fs';
+import { promises as fsPromises } from 'fs';
 import fileUtils from './utils/file';
 import userUtils from './utils/user';
 import basicUtils from './utils/basic';
@@ -12,6 +12,9 @@ const userQueue = new Queue('userQueue');
 
 fileQueue.process(async (job) => {
   const { fileId, userId } = job.data;
+
+  // Delete bull keys in redis
+  //   redis-cli keys "bull*" | xargs redis-cli del
 
   if (!userId) {
     console.log('Missing userId');
@@ -40,7 +43,8 @@ fileQueue.process(async (job) => {
     options.width = width;
     try {
       const thumbnail = await imageThumbnail(localPath, options);
-      await filePromises.writeFile(`${localPath}_${width}`, thumbnail);
+      await fsPromises.writeFile(`${localPath}_${width}`, thumbnail);
+      //   console.log(thumbnail);
     } catch (err) {
       console.error(err.message);
     }
@@ -49,6 +53,8 @@ fileQueue.process(async (job) => {
 
 userQueue.process(async (job) => {
   const { userId } = job.data;
+  // Delete bull keys in redis
+  //   redis-cli keys "bull*" | xargs redis-cli del
 
   if (!userId) {
     console.log('Missing userId');

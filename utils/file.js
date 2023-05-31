@@ -6,11 +6,11 @@ import userUtils from './user';
 import basicUtils from './basic';
 
 /**
- * File utilities
+ * Module with file utilities
  */
 const fileUtils = {
   /**
-   * Validates body params for creating file
+   * Validates if body is valid for creating file
    * @request {request_object} express request obj
    * @return {object} object with err and validated params
    */
